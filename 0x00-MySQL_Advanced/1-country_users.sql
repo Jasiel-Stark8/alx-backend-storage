@@ -1,9 +1,8 @@
 -- Create users table with id, email, and name
 -- AFLTER TABLE TO ADD COLUMN AND ADD ROWS
-
 CREATE TABLE IF NOT EXISTS users(
     id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) NOT NULL UNIQUE,
     name VARCHAR(255),
-    country ENUM('US', 'CO', 'TN') NOT NULL DEFAULT 'US';
+    country ENUM('US', 'CO', 'TN') DEFAULT 'US' NOT NULL;
 );
