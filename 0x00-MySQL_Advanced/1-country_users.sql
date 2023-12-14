@@ -1,3 +1,4 @@
+-- Create users table with id, email, and name
 -- AFLTER TABLE TO ADD COLUMN AND ADD ROWS
 
 CREATE TABLE IF NOT EXISTS users(
