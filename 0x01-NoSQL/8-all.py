@@ -4,11 +4,13 @@ from pymongo import MongoClient
 
 
 def list_all(mongo_collection):
-    """Function to list MongoDB documents"""
+    """list all documents in collection
+    param: mongo_collection
+    return: None or List
+    """
     if mongo_collection is None:
         return None
 
     documents = mongo_collection.find()
     for document in documents:
-        print(document)
         return document
