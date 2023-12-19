@@ -10,7 +10,8 @@ def log_stats():
     nginx_collection = db.nginx
 
     methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
-    method_count = {method: nginx_collection.count_documents({"method": method}) for method in methods}
+    method_count = {method: nginx_collection.count_documents({"method":\
+        method}) for method in methods}
     total_logs = sum(method_count.values())
     status_check_logs = nginx_collection.count_documents({"method": "GET", "path": "/status"})
 
