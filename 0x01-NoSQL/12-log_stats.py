@@ -2,27 +2,27 @@
 """Log stats"""
 from pymongo import MongoClient
 
-methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
 
-def log_stats(logs, nginx):
+def log_stats():
     """Show logs
     param1: database name
     param2: collection name
     return: status | all logs OR None
     """
-    if logs is None:
-        return None
+    client = MongoClient('mongodb://localhost:27017/')
+    db = client.logs
+    nginx_collection = db.nginx
 
-    logs_collection = logs[nginx].find({})
-    num_logs = 0
-    method_count = {method: 0 for method in methods}
+    methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
+    method_count = {method: nginx_collection.count_documents({"method": method}) for method in methods}
 
-    for log in logs_collection:
-        num_logs += 1
-        if 'method' in log:
-            if log['method'] in methods:
-                method_count[log['method']] += 1
+    log_total = sum(method_count.values())
+    check_log_status = nginx_collection.count_documents({"method": "GET", "path": "/status"})
 
-    print(f"{num_logs} logs")
+    print(f"{log_total} logs")
+    print("Methods:")
     for method in methods:
         print(f"method {method}: {method_count[method]}")
+
+if __name__ == "__main__":
+    log_stats()
