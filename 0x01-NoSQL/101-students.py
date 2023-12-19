@@ -6,9 +6,6 @@ def top_students(mongo_collection):
     """Return all students sorted by average score"""
     pipeline = [
         {
-            "$unwind": "$scores"
-        },
-        {
             "$project": {
                 "name": "$name",
                 "averageScore": {"$avg": "$topics.score"}
