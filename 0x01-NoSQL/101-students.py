@@ -4,5 +4,21 @@
 
 def top_students(mongo_collection, score):
     """return all students sorted by average score"""
-    top = mongo_collection.find({"$avg": {"score": score}})
-    return top
+    pipeline = [
+        {
+            "$unwind": "scores"
+        },
+        {
+            "$group": {
+                "_id": "$_id",
+                "name": {"$first": "$name"},
+                "scores": "{$avg: $scores.score}"
+            }
+        },
+        {
+            "$sort": {"averageScore": -1}
+        }
+    ]
+
+    top = mongo_collection.aggregate(pipeline)
+    return list(top)
