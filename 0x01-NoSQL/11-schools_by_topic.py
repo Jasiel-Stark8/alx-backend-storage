@@ -5,9 +5,9 @@
 def schools_by_topic(mongo_collection, topic):
     """return specific topic in school list
     param1: mongo_collection
-    param2: topic
+    param2: topic to query
     return: None or Topic
     """
 
-    topic = mongo_collection.find({"topic": topic})
+    topic = mongo_collection.find({"topics": topic})
     return topic
