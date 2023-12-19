@@ -1,2 +1,2 @@
-// delete all documents with projection
+// delete document
 db.school.remove({ "name": "Holberton school" })
