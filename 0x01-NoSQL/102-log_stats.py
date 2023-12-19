@@ -15,24 +15,22 @@ def log_stats():
     total_logs = sum(method_count.values())
     status_check_logs = nginx_collection.count_documents({"method": "GET", "path": "/status"})
 
-    # New code for top 10 IPs
+    # Filter top 10 IPs
     top_ips = nginx_collection.aggregate([
         {"$group": {"_id": "$ip", "count": {"$sum": 1}}},
         {"$sort": {"count": -1}},
         {"$limit": 10}
     ])
 
-    # Printing the existing stats
     print(f"{total_logs} logs")
     print("Methods:")
     for method in methods:
         print(f"\tmethod {method}: {method_count[method]}")
     print(f"{status_check_logs} status check")
 
-    # Printing top IPs
-    print("\nTop 10 IPs:")
+    print("IPs:")
     for ip in top_ips:
-        print(f"{ip['_id']}: {ip['count']}")
+        print(f"\t{ip['_id']}: {ip['count']}")
 
 if __name__ == "__main__":
     log_stats()
