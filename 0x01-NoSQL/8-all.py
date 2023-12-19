@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """List all documents in Python"""
-from pymongo import MongoClient
 
 
 def list_all(mongo_collection):
@@ -12,5 +11,4 @@ def list_all(mongo_collection):
         return None
 
     documents = mongo_collection.find()
-    for document in documents:
-        return document
+    return documents
