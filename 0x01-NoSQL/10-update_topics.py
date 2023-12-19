@@ -10,5 +10,5 @@ def update_topics(mongo_collection, name, topics):
     return None or update
     """
 
-    documents = mongo_collection.update({"name": name}, { "$set" {"topics": topics}})
+    documents = mongo_collection.update_many({"name": name}, {"$set" {"topics": topics}})
     return documents
