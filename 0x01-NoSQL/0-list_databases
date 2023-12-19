@@ -1,0 +1,14 @@
+#!/usr/bin/env python3
+"""Connect to mongo server and list all databases"""
+
+from pymongo.mongo_client import MongoClient
+
+uri = "mongodb+srv://jason:220300@jason.hcm3lse.mongodb.net/?retryWrites=true&w\ =majority"
+client = MongoClient(uri)
+
+db = cluster["test"]
+collection = db["test"]
+
+post = {"_id": 0, "name": "tim", "grade": 8}
+
+collection.insertOne(post)
