@@ -1,0 +1,2 @@
+// list all document with projection
+db.school.find({"name": "Holberton school"})
