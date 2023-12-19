@@ -1,3 +1,3 @@
 // insert a document into collection school
 use my_db
-db.schoool.insertOne({"name": "Holberton school"})
+db.schoool.insert({"name": "Holberton school"})
