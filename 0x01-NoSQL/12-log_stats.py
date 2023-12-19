@@ -23,6 +23,7 @@ def log_stats():
     print("Methods:")
     for method in methods:
         print(f"method {method}: {method_count[method]}")
+    print(f"{check_log_status} status check")
 
 if __name__ == "__main__":
     log_stats()
