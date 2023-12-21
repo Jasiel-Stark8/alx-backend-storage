@@ -35,20 +35,26 @@ def call_history(method: Callable) -> Callable:
 
 
 def replay(method: Callable):
-    self = method.__self__
+    """Function to display the history of calls of a particular function."""
+    self = method.__self__  # Get the instance (Cache) from the method
     method_name = method.__qualname__
-    inputs_key = f"{method_name}:inputs"
-    outputs_key = f"{method_name}:outputs"
+    inputs_key = "{}:inputs".format(method_name)
+    outputs_key = "{}:outputs".format(method_name)
 
-    count = int(self._redis.get(method_name) or 0)
-    print(f"{method_name} was called {count} times:")
+    # Get the number of times the method was called
+    count = self._redis.get(method_name).decode("utf-8")
 
+    # Retrieve the history of inputs and outputs
     inputs = self._redis.lrange(inputs_key, 0, -1)
     outputs = self._redis.lrange(outputs_key, 0, -1)
 
-    for input_val, output_val in zip(inputs, outputs):
-        print(f"{method_name}(*{input_val.decode('utf-8')}) -> {output_val.decode('utf-8')}")
+    print(f"{method_name} was called {count} times:")
 
+    # Loop over inputs and outputs and print them
+    for input_val, output_val in zip(inputs, outputs):
+        input_str = input_val.decode("utf-8")
+        output_str = output_val.decode("utf-8")
+        print(f"{method_name}(*{input_str}) -> {output_str}")
 
 
 
