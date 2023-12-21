@@ -17,6 +17,26 @@ def count_calls(method: Callable) -> Callable:
     return wrapper
 
 
+def call_history(method: Callable) -> Callable:
+    """Store the history of inputs and outputs for a particular function"""
+    @functools.wraps(method)
+    def wrapper(self, *args, **kwargs):
+        input_key = "{}:inputs".format(method.__qualname__)
+        output_key = "{}:outputs".format(method.__qualname__)
+
+        # store input arguments as string in :inputs list
+        self._redis.rpush(input_key, str(args))
+
+        # Execute wrapped function and store output
+        result = method(self, *args, **kwargs)
+
+        # Store output in :outputs list
+        self._redis.rpush(output_key, str(args))
+        return result
+    return wrapper
+
+
+
 class Cache:
     """Parent Cache Class"""
 
