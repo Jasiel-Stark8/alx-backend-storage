@@ -13,7 +13,7 @@ class Cache:
         self._redis = redis.Redis(host='localhost', port=6379)
         self._redis.flushdb()
 
-    def store(self, data: Union[str, int]) -> str:
+    def store(self, data: Union[str, int, bytes, float]) -> str:
         if data:
             key = str(uuid.uuid4())
             self._redis.set(key, data)
