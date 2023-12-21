@@ -7,11 +7,12 @@ import redis
 # Connect to local Redis instance
 r = redis.StrictRedis(host='localhost', port=6379)
 
+
 def count_requests(method):
     """Decorator to count how many times a URL has been requested"""
     def wrapper(url):
-        # Increment coutn for url
-        r.incr(f'count: {url}')
+        # Increment the count for this URL
+        r.incr(f"count:{url}")
         return method(url)
     return wrapper
 
@@ -19,14 +20,14 @@ def count_requests(method):
 def cache_page(method):
     """Decorator to cache pages and set an expiration time"""
     def wrapper(url):
-        # cehck if page has been cached
-        cached_content = r.get(f'cached: {url}')
+        # Check if the page is already cached
+        cached_content = r.get(f"cached:{url}")
         if cached_content:
             return cached_content.decode('utf-8')
 
-        # Fetch content and cache if not cached
+        # If not cached, fetch the content and cache it
         content = method(url)
-        r.setex(f'cached: {url}', 10, content)
+        r.setex(f"cached:{url}", 10, content)
         return content
     return wrapper
 
