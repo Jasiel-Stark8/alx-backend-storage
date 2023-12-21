@@ -13,8 +13,6 @@ class Cache:
         self._redis = redis.Redis(host='localhost', port=6379)
         self._redis.flushdb()
 
-    @count_calls
-    @call_history
     def store(self, data: Union[str, int]) -> str:
         if data:
             key = str(uuid.uuid4())
