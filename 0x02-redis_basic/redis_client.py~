@@ -1,0 +1,12 @@
+import redis
+
+r = redis.Redis(host='localhost',
+                port=6379,
+                db=0)
+
+# Set session kv pair
+user_device = 'chrome-157-beta'
+r.set(user_device, 1000, 'Active')
+
+# Print Session TTL
+ttl = r.TTL(user_device)
